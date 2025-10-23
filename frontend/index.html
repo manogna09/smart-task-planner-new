@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin-top: 40px;
+        }
+        input {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 30px;
+            text-align: left;
+            width: 60%;
+            margin-left: 20%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Smart Task Planner</h1>
+    <input type="text" id="goalInput" placeholder="Enter your goal (e.g., Launch a product in 2 weeks)" />
+    <br>
+    <button onclick="generatePlan()">Generate Plan</button>
+
+    <div class="output" id="output"></div>
+
+    <script>
+        async function generatePlan() {
+            const goal = document.getElementById("goalInput").value;
+            const response = await fetch("http://127.0.0.1:8000/generate_plan/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ goal })
+            });
+            const data = await response.json();
+            document.getElementById("output").innerHTML = "<h3>Goal:</h3>" + data.goal +
+                "<h4>Prompt Used:</h4>" + data.prompt_used +
+                "<h4>Tasks:</h4><pre>" + JSON.stringify(data.tasks, null, 2) + "</pre>";
+        }
+    </script>
+</body>
+</html>
