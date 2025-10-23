@@ -4,6 +4,9 @@ from datetime import date, timedelta
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
 
+# -----------------------------
+# App Initialization
+# -----------------------------
 app = FastAPI(title="Smart Task Planner", version="1.0.0")
 
 app.add_middleware(
@@ -14,6 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# -----------------------------
+# Data Models
+# -----------------------------
 class GoalRequest(BaseModel):
     goal: str = Field(..., example="Launch a product in 2 weeks")
 
@@ -29,6 +35,9 @@ class PlanResponse(BaseModel):
     prompt_used: str
     tasks: List[Task]
 
+# -----------------------------
+# Routes
+# -----------------------------
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -38,28 +47,35 @@ def generate_plan(goal_request: GoalRequest):
     goal_text = goal_request.goal
     prompt_used = "Break down this goal into actionable tasks with suggested deadlines and dependencies."
 
+    today = date.today()
+
     tasks = [
         {
             "task": "Define project scope",
             "depends_on": None,
             "duration_days": 2,
-            "start": str(date.today()),
-            "end": str(date.today() + timedelta(days=2)),
+            "start": str(today),
+            "end": str(today + timedelta(days=2)),
         },
         {
             "task": "Design prototype",
             "depends_on": "Define project scope",
             "duration_days": 3,
-            "start": str(date.today() + timedelta(days=2)),
-            "end": str(date.today() + timedelta(days=5)),
+            "start": str(today + timedelta(days=2)),
+            "end": str(today + timedelta(days=5)),
         },
         {
             "task": "Test and launch",
             "depends_on": "Design prototype",
             "duration_days": 5,
-            "start": str(date.today() + timedelta(days=5)),
-            "end": str(date.today() + timedelta(days=10)),
+            "start": str(today + timedelta(days=5)),
+            "end": str(today + timedelta(days=10)),
         },
     ]
 
-    return {"goal": goal_text, "prompt_used": prompt_used, "tasks": tasks}
+    return {
+        "goal": goal_text,
+        "prompt_used": prompt_used,
+        "tasks": tasks
+    }
+
