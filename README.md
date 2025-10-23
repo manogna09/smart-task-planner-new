@@ -89,10 +89,10 @@ smart_task_planner/
 ---
 
 ## 📽️ Demo Video
-Add your recorded video link here once uploaded:
-[Demo Video Placeholder](https://drive.google.com/)
+
+[Demo Video Placeholder](https://drive.google.com/file/d/1Tj8bZnnj9EwX17ys2CKelkl2ExME_X4g/view?usp=sharing)
 
 ---
 
 ## 👩‍💻 Author
-**Sai Navya Jyesta**
+**Sai Manogna Jyesta**
